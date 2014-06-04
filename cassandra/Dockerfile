@@ -4,15 +4,10 @@
 
 FROM centos
 
-# Install HotSpot JDK 7u51
-RUN wget -q -O - --no-cookies --no-check-certificate --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/8-b132/jdk-8-linux-x64.rpm" > /tmp/jdk.rpm
-RUN rpm -ivh /tmp/jdk.rpm && rm /tmp/jdk.rpm
-RUN alternatives --install /usr/bin/java java /usr/java/default/bin/java 20000
-
-# Install packges (sshd + supervisord + monitoring tools + cassandra)
+# Install packges (wget + java7 + sshd + supervisord + monitoring tools + cassandra)
 ADD src/epel6.repo /etc/yum.repos.d/epel6.repo
 ADD src/datastax.repo /etc/yum.repos.d/datastax.repo
-RUN yum install -y openssh-server openssh-clients 
+RUN yum install -y wget java-1.7.0-openjdk openssh-server openssh-clients 
 RUN yum install -y supervisor 
 RUN yum install -y dsc20
 RUN yum install -y sysstat sudo which 
